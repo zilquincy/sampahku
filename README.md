@@ -51,3 +51,5 @@ docker run -d -p 80:5000 --env-file .env sampahku
 | `DB_PASS` | Password RDS |
 | `S3_BUCKET` | Nama S3 bucket |
 | `SECRET_KEY` | Random string panjang |
+# Update
+# Update
