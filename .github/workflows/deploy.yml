@@ -6,7 +6,6 @@ on:
 
 jobs:
   deploy:
-    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -16,26 +15,29 @@ jobs:
       - name: Deploy via SSH to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ 52.221.236.111 }}
+          host: 52.221.236.111
           username: ubuntu
-          key: ${{ mahasiswafe.pem }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/sampahku
             git pull origin main
             docker build -t sampahku:latest .
-            docker stop sampahku-app 2>/dev/null || true
-            docker rm   sampahku-app 2>/dev/null || true
+
+            docker stop sampahku-app || true
+            docker rm sampahku-app || true
+
             docker run -d \
               --name sampahku-app \
               --restart unless-stopped \
               -p 80:5000 \
-              -e DB_HOST=${{ sampahku-db.cfyk8wgyqqvr.ap-southeast-1.rds.amazonaws.com }} \
-              -e DB_NAME=${{ sampahku-db }} \
-              -e DB_USER=${{ postgres }} \
-              -e DB_PASS=${{ 	Mariobros1 }} \
-              -e S3_BUCKET=${{ sampahku-uploads-zill }} \
+              -e DB_HOST=sampahku-db.cfyk8wgyqqvr.ap-southeast-1.rds.amazonaws.com \
+              -e DB_NAME=sampahku-db \
+              -e DB_USER=postgres \
+              -e DB_PASS=Mariobros1 \
+              -e S3_BUCKET=sampahku-uploads-zill \
               -e AWS_REGION=ap-southeast-1 \
-              -e SECRET_KEY=${{ zqLAPIULpgb8Jnl6q59PnHQlDAjgDfIkbJjOwXVO }} \
+              -e SECRET_KEY=${{ secrets.SECRET_KEY }} \
               sampahku:latest
+
             echo "✅ Deploy selesai!"
             docker ps | grep sampahku
