@@ -16,7 +16,7 @@ jobs:
       - name: Deploy via SSH to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ 54.123.45.67 }}
+          host: ${{ 52.221.236.111 }}
           username: ubuntu
           key: ${{ mahasiswafe.pem }}
           script: |
