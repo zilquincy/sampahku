@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}Buat Laporan{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="d-flex align-items-center mb-3">
+      <a href="/laporan" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+      <h4 class="fw-bold mb-0"><i class="bi bi-plus-circle text-success"></i> Laporkan Sampah Liar</h4>
+    </div>
+
+    <div class="card">
+      <div class="card-header" style="background:#1B5E20;color:#fff;">
+        <i class="bi bi-form"></i> Form Laporan
+      </div>
+      <div class="card-body">
+        <form method="POST" enctype="multipart/form-data">
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Nama Pelapor <span class="text-danger">*</span></label>
+              <input type="text" name="nama" class="form-control" placeholder="Nama lengkap" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">No. HP</label>
+              <input type="text" name="no_hp" class="form-control" placeholder="08xxxxxxxxxx">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Alamat Lokasi Sampah <span class="text-danger">*</span></label>
+            <input type="text" name="lokasi" class="form-control" placeholder="Jl. Contoh No. 1, Bandung" required>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-5">
+              <label class="form-label fw-semibold">Latitude</label>
+              <input type="text" name="lat" id="lat" class="form-control" placeholder="Otomatis / manual">
+            </div>
+            <div class="col-md-5">
+              <label class="form-label fw-semibold">Longitude</label>
+              <input type="text" name="lng" id="lng" class="form-control" placeholder="Otomatis / manual">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="button" class="btn btn-outline-success w-100" onclick="getLocation()">
+                <i class="bi bi-geo-alt-fill"></i>
+              </button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <small class="text-muted">Klik ikon 📍 untuk deteksi lokasi otomatis via GPS browser</small>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Deskripsi Sampah</label>
+            <textarea name="deskripsi" class="form-control" rows="3"
+              placeholder="Jelaskan kondisi sampah, jumlah, jenis, dll."></textarea>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Foto Sampah <span class="text-danger">*</span></label>
+            <input type="file" name="foto" id="fotoInput" class="form-control" accept="image/*" required>
+            <small class="text-muted">Format: JPG, PNG, WebP. Maks 10MB.</small>
+            <div class="mt-2" id="previewBox" style="display:none;">
+              <img id="previewImg" src="" class="rounded" style="max-height:200px;max-width:100%;object-fit:contain;">
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/laporan" class="btn btn-outline-secondary">Batal</a>
+            <button type="submit" class="btn btn-sampah px-4">
+              <i class="bi bi-send"></i> Kirim Laporan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function getLocation() {
+  if (!navigator.geolocation) {
+    alert('Browser kamu tidak mendukung Geolocation.');
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      document.getElementById('lat').value = pos.coords.latitude.toFixed(6);
+      document.getElementById('lng').value = pos.coords.longitude.toFixed(6);
+    },
+    err => alert('Gagal mendapatkan lokasi: ' + err.message)
+  );
+}
+
+// Preview foto sebelum upload
+document.getElementById('fotoInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('previewImg').src = e.target.result;
+      document.getElementById('previewBox').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+});
+</script>
+{% endblock %}

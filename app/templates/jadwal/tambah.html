@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Tambah Jadwal{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="d-flex align-items-center mb-3">
+      <a href="/jadwal" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+      <h4 class="fw-bold mb-0"><i class="bi bi-calendar-plus text-success"></i> Tambah Jadwal Pengangkutan</h4>
+    </div>
+
+    <div class="card">
+      <div class="card-header" style="background:#1B5E20;color:#fff;">
+        <i class="bi bi-form"></i> Form Jadwal
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Wilayah <span class="text-danger">*</span></label>
+            <input type="text" name="wilayah" class="form-control"
+              placeholder="Contoh: Kelurahan Sukajadi, RW 05" required>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Hari <span class="text-danger">*</span></label>
+              <select name="hari" class="form-select" required>
+                <option value="">-- Pilih Hari --</option>
+                {% for hari in hari_list %}
+                <option value="{{ hari }}">{{ hari }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Jam <span class="text-danger">*</span></label>
+              <input type="time" name="jam" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Keterangan</label>
+            <textarea name="keterangan" class="form-control" rows="2"
+              placeholder="Contoh: Pengangkutan rutin mingguan, gunakan jalur alternatif"></textarea>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/jadwal" class="btn btn-outline-secondary">Batal</a>
+            <button type="submit" class="btn btn-sampah px-4">
+              <i class="bi bi-save"></i> Simpan Jadwal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

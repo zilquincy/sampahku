@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Jadwal Pengangkutan{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="fw-bold mb-0"><i class="bi bi-calendar3 text-success"></i> Jadwal Pengangkutan Sampah</h4>
+  <a href="/jadwal/tambah" class="btn btn-sampah">
+    <i class="bi bi-plus-circle"></i> Tambah Jadwal
+  </a>
+</div>
+
+{% if data %}
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th><i class="bi bi-geo-alt"></i> Wilayah</th>
+            <th><i class="bi bi-calendar-day"></i> Hari</th>
+            <th><i class="bi bi-clock"></i> Jam</th>
+            <th>Keterangan</th>
+            <th class="text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            <td class="text-muted">{{ loop.index }}</td>
+            <td class="fw-semibold">{{ row[1] }}</td>
+            <td>
+              <span class="badge bg-primary">{{ row[2] }}</span>
+            </td>
+            <td>
+              <i class="bi bi-clock text-success"></i> {{ row[3] }}
+            </td>
+            <td class="text-muted small">{{ row[4] or '-' }}</td>
+            <td class="text-center">
+              <form method="POST" action="/jadwal/hapus/{{ row[0] }}"
+                    onsubmit="return confirm('Hapus jadwal ini?')" class="d-inline">
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Summary cards by hari -->
+<div class="row g-3 mt-2">
+  {% for hari in hari_list %}
+    {% set hari_data = data | selectattr(2|string, 'equalto', hari) | list %}
+    {% if hari_data %}
+    <div class="col-md-4 col-lg-3">
+      <div class="card border-start border-success border-3">
+        <div class="card-body py-2 px-3">
+          <div class="fw-bold text-success">{{ hari }}</div>
+          {% for row in data %}
+            {% if row[2] == hari %}
+            <div class="small text-muted">{{ row[1] }} — {{ row[3] }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="card">
+  <div class="card-body text-center py-5 text-muted">
+    <i class="bi bi-calendar-x fs-1 d-block mb-3"></i>
+    <h5>Belum ada jadwal</h5>
+    <a href="/jadwal/tambah" class="btn btn-sampah mt-2">
+      <i class="bi bi-plus-circle"></i> Tambah Jadwal
+    </a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

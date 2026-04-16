@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Tambah Petugas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="d-flex align-items-center mb-3">
+      <a href="/monitoring" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+      <h4 class="fw-bold mb-0"><i class="bi bi-person-plus text-success"></i> Tambah Petugas Kebersihan</h4>
+    </div>
+
+    <div class="card">
+      <div class="card-header" style="background:#1B5E20;color:#fff;">
+        <i class="bi bi-form"></i> Form Data Petugas
+      </div>
+      <div class="card-body">
+        <form method="POST">
+          <div class="row g-3 mb-3">
+            <div class="col-md-7">
+              <label class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+              <input type="text" name="nama" class="form-control"
+                placeholder="Nama petugas" required>
+            </div>
+            <div class="col-md-5">
+              <label class="form-label fw-semibold">NIP</label>
+              <input type="text" name="nip" class="form-control"
+                placeholder="Nomor Induk Pegawai">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Wilayah Tugas <span class="text-danger">*</span></label>
+            <input type="text" name="wilayah" class="form-control"
+              placeholder="Contoh: Kelurahan Sukajadi, Bandung" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Status</label>
+            <select name="status" class="form-select">
+              <option value="aktif">Aktif</option>
+              <option value="nonaktif">Non-aktif</option>
+              <option value="cuti">Cuti</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Keterangan</label>
+            <textarea name="keterangan" class="form-control" rows="2"
+              placeholder="Catatan tambahan (opsional)"></textarea>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/monitoring" class="btn btn-outline-secondary">Batal</a>
+            <button type="submit" class="btn btn-sampah px-4">
+              <i class="bi bi-save"></i> Simpan Data
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
